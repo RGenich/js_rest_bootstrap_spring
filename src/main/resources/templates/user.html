@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>User details</title>
+</head>
+<body>
+<div th:replace="~{header::menu}">a</div>
+<div>
+    <form th:object="${user}" th:method="post" th:action="@{/admin}">
+        <p><label>Full name</label>
+            <input name="fullname" type="text" th:field="*{fullName}">
+        <p><label>ID</label>
+            <input name="id" type="text" th:field="*{id}" readonly>
+        <p><label>Login</label>
+            <input name="login" type="text" th:field="*{login}" readonly>
+        <p><label>Age:</label>
+            <input name="age" type="number" th:field="*{age}">
+        <p><label>Sex:</label>
+        <div th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">
+            <input required type="radio" th:text="${sx}" th:name="sex" th:value="${sx}" th:field="*{sex}">
+        </div>
+            <div th:if="${#request.isUserInRole('ADMIN')}">
+        <p>Roles
+        <ul>
+            <li th:each="role : ${role.allRoles}">
+                <input type="checkbox" th:text="${role.toString()}"
+                       th:checked="${#lists.contains(stringRoleList, role)}"
+                       th:name="roles" th:value="${role}">
+            </li>
+        </ul>
+        <input name="password" type="hidden" th:name="password" th:value="*{password}">
+        <input type="submit" value="Save">
+    </form>
+
+</div>
+</body>
+</html>

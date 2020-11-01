@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users manager</title>
+</head>
+<body>
+<div th:insert="~{header :: menu}"></div>
+
+<table border="1" bordercolor="black" width="80%" align="center" cellpadding="5px">
+    <tr>
+        <td><b>Name</b></td>
+        <td><b>Login</b></td>
+        <td><b>Age</b></td>
+        <td><b>Sex</b></td>
+        <td>Actions</td>
+    </tr>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.fullName}">nameValue</td>
+        <td th:text="${user.login}">login</td>
+        <td th:text="${user.age}">age</td>
+        <td th:text="${user.sex}">sex</td>
+
+        <td>
+            <form th:action="@{/user(id=${user.id},delete)}" method="post">
+                <button type="submit" name="delete" value="delete" class="btn-link">Delete</button>
+            </form>
+            <form th:action="@{/user}" method="get">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <button type="submit" class="btn-link">Edit</button>
+            </form>
+    </tr>
+    <tr>
+        <form th:method="post" th:action="@{/signup}" th:object="${user}">
+            <td><input required type="text" th:name="fullname" width="100px" th:field="*{fullName}"></td>
+            <td><input required type="text" th:name="login" width="50px" th:text="log" th:field="*{login}">
+                <input required type="password" th:name="password" width="50px" th:text="pass"
+                       th:field="*{password}"></td>
+            <td>
+                <input th:field="*{age}" th:name="age" type="number"></td>
+            </td>
+            <td>
+                <div th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">
+                    <input required type="radio" th:text="${sx}" th:name="sex" th:value="${sx}" th:field="*{sex}">
+                </div>
+            </td>
+            <td>
+                <input type="submit" value="add user"/>
+            </td>
+
+        </form>
+    </tr>
+</table>
+</body>
+</html>
