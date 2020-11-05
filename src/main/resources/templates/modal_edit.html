@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="modal_edit">
+
+    <form th:action="@{/admin}" method="post" th:object="${emptyuser}">
+
+        <div class="modal fade" id="editModal" th:attrappend="id=${user.id}" tabindex="-1" role="dialog"
+             aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit user</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p><label for="login_modal">ID</label>
+                            <input id="id" th:name="id" type="text" th:value="${user.id}" readonly
+                                   class="form-control">
+                            <label for="login_modal">Login</label>
+                            <input required type="text" id="login_modal" th:name="login" th:value="${user.login}">
+                        <p><label for="fname_modal">FullName</label>
+                            <input id="fname_modal" th:name="fullName" required type="text"
+                                   th:value="${user.fullName}">
+
+                        <p><label for="age_modal">Age</label>
+                            <input id="age_modal" th:name="age" type="number" th:value="${user.age}">
+                            <input required type="hidden" th:name="password" th:value="${user.password}">
+                        <p>
+                        <div class="form-group">
+                            <div th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">
+                                <input type="radio" required th:value="${sx}" th:name="sex" th:text="${sx}"
+                                       th:checked="${sx == sex}">
+
+                            </div>
+                        </div>
+
+                        <label for="roles">Roles:</label>
+                        <ul id="roles">
+                            <li th:each="role : ${rolesList}">
+                                <input type="checkbox" th:text="${role.toString()}"
+                                       th:checked="${#sets.contains(user.roles, role)}"
+                                       th:name="roles" th:value="${role}">
+                            </li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                </div>
+            </div>
+    </form>
+
+</div>
+</body>
+</html>

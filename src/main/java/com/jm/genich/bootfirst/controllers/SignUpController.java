@@ -1,6 +1,7 @@
 package com.jm.genich.bootfirst.controllers;
 
 import com.jm.genich.bootfirst.models.User;
+import com.jm.genich.bootfirst.service.RoleService;
 import com.jm.genich.bootfirst.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,18 +16,19 @@ public class SignUpController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/signup")
-    public String signUp(Model model) {
+    @GetMapping(value = "/reguser")
+    public String registerUser(Model model) {
         model.addAttribute("user", new User());
-        return "signup";
+        return "reguser";
     }
 
-    @PostMapping(value = "/signup")
-    public String signUp(RedirectAttributes attributes, @ModelAttribute User user) {
-        userService.addUser(user);
+    @PostMapping(value = "/reguser")
+    public String registerUser(RedirectAttributes attributes, @ModelAttribute User user, HttpServletRequest request) {
+        userService.regUser(user);
         attributes.addAttribute("id", user.getId());
-
-        return "redirect:/user";
+        return request.isUserInRole("ROLE_ADMIN") ?
+                "redirect:/admin" :
+                "redirect:/user";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

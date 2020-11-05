@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder passwordEncoder;
 
     @Override
-    public void addUser(User user) {
+    public void regUser(User user) {
 
         Set<Role> roles = new HashSet<>();
         if (!existsById(1L)) {
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> showUsers() {
+    public List<User> getAllUsers() {
         return userDao.findAll();
     }
 

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:insert="~{header :: menu}"></div>
+
+<div class="container m-5">
+    <form method="post" action="/reguser" th:object="${user}">
+        <label for="name">Full name</label>
+        <input class="form-control" id="name" type="text" th:field="*{fullName}" name="fullname"/>
+        <label for="login">Login</label>
+        <input class="form-control" id="login"  type="text" th:field="*{login}" name="login"/>
+        <label for="password">Password</label>
+        <input class="form-control" id="password" type="password" th:field="*{password}" name="password"/>
+        <input type="submit" class="btn btn-primary"/>
+    </form>
+</div>
+</body>
+</html>

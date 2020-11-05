@@ -5,7 +5,7 @@ import com.jm.genich.bootfirst.models.User;
 import java.util.List;
 
 public interface UserService {
-    void addUser(User user);
+    void regUser(User user);
 
     boolean existsById (Long id);
 
@@ -15,7 +15,7 @@ public interface UserService {
 
     void updateUser(User user);
 
-    List<User> showUsers();
+    List<User> getAllUsers();
 
     User getUserByLogin(String login);
 }

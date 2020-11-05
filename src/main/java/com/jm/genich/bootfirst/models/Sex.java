@@ -1,7 +1,7 @@
 package com.jm.genich.bootfirst.models;
 
 public enum Sex {
-    MALE("male"), FEMALE("female");
+    MALE("MALE"), FEMALE("FEMALE");
     String sex;
 
     Sex(String s) {

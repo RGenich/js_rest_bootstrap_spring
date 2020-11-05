@@ -3,25 +3,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<div th:insert="~{header :: menu}"></div>
+</div>
 
-<div>
+<div class="container p-5">
     <h1>Login page</h1>
     <div th:if="${error == true}">
         <p> wrong credential</p>
     </div>
-</div>
-<form method="post" action="/login">
-    <input name="j_username"/>
-    <input type="password" name="j_password"/>
-    <input type="submit"/>
-</form>
-<p><a th:href="@{/signup}">Registration</a>
 
-
-
+    <form method="post" action="/login">
+        <input name="j_username"/>
+        <input type="password" name="j_password"/>
+        <input type="submit"/>
+    </form>
+    <p><a href="/reguser">Registration</a>
 </div>
 </body>
 </html>

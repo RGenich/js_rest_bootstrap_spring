@@ -4,53 +4,93 @@
 <head>
     <meta charset="UTF-8">
     <title>Users manager</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+            crossorigin="anonymous"></script>
+    <!--    JS below-->
 </head>
+
 <body>
+
 <div th:insert="~{header :: menu}"></div>
 
-<table border="1" bordercolor="black" width="80%" align="center" cellpadding="5px">
-    <tr>
-        <td><b>Name</b></td>
-        <td><b>Login</b></td>
-        <td><b>Age</b></td>
-        <td><b>Sex</b></td>
-        <td>Actions</td>
-    </tr>
-    <tr th:each="user : ${users}">
-        <td th:text="${user.fullName}">nameValue</td>
-        <td th:text="${user.login}">login</td>
-        <td th:text="${user.age}">age</td>
-        <td th:text="${user.sex}">sex</td>
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#view">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#add">Add user</a>
+        </li>
+    </ul>
 
-        <td>
-            <form th:action="@{/user(id=${user.id},delete)}" method="post">
-                <button type="submit" name="delete" value="delete" class="btn-link">Delete</button>
-            </form>
-            <form th:action="@{/user}" method="get">
-                <input type="hidden" name="id" th:value="${user.id}">
-                <button type="submit" class="btn-link">Edit</button>
-            </form>
-    </tr>
-    <tr>
-        <form th:method="post" th:action="@{/signup}" th:object="${user}">
-            <td><input required type="text" th:name="fullname" width="100px" th:field="*{fullName}"></td>
-            <td><input required type="text" th:name="login" width="50px" th:text="log" th:field="*{login}">
-                <input required type="password" th:name="password" width="50px" th:text="pass"
-                       th:field="*{password}"></td>
-            <td>
-                <input th:field="*{age}" th:name="age" type="number"></td>
-            </td>
-            <td>
-                <div th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">
-                    <input required type="radio" th:text="${sx}" th:name="sex" th:value="${sx}" th:field="*{sex}">
-                </div>
-            </td>
-            <td>
-                <input type="submit" value="add user"/>
-            </td>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="view">
 
-        </form>
-    </tr>
-</table>
+            <table class="table table-borderless table-hover border text-center">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Login</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Sex</th>
+                    <th scope="col" colspan="2">Actions</th>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td scope="row" th:text="${user.fullName}">nameValue</td>
+                    <td scope="row" th:text="${user.login}">login</td>
+                    <td scope="row" th:text="${user.age}">age</td>
+                    <td scope="row" th:text="${user.sex}">sex</td>
+
+                    <td scope="row">
+                        <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#editModal"
+                                th:attrappend="data-target=${user.id}">
+                            Edit
+                        </button>
+                    </td>
+                    <td>
+                        <form th:action="@{/deleteUser}" method="post">
+                            <input type="hidden" th:name="id" th:value="${user.id}">
+                            <button type="submit" value="delete" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+
+                    <div th:insert="~{modal_edit :: modal_edit}"></div>
+                </tr>
+            </table>
+        </div>
+
+
+        <div class="tab-pane fade" id="add">
+
+            <div th:insert="~{addUserPart :: regcard}"></div>
+<!--            <form th:method="post" th:action="@{/reguser}" th:object="${emptyuser}">-->
+<!--                <p><label for="add_fullanme">Name</label>-->
+<!--                    <input id="add_fullanme" required type="text" th:name="fullname" th:field="*{fullName}">-->
+<!--                <p><label for="add_login">Login</label>-->
+<!--                    <input id="add_login" required type="text" th:name="login" th:field="*{login}">-->
+<!--                <p><label for="add_password">Password</label>-->
+<!--                    <input id="add_password" required type="password" th:name="password" th:field="*{password}">-->
+<!--                <p><label for="add_age">Age </label>-->
+<!--                    <input id="add_age" th:field="*{age}" th:name="age" type="number">-->
+<!--                <p><label for="add_sex">Sex</label>-->
+<!--                <div id="add_sex" th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">-->
+<!--                    <input required type="radio" th:text="${sx}" th:name="sex" th:value="${sx}"-->
+<!--                           th:field="*{sex}">-->
+<!--                </div>-->
+<!--                <input class="btn btn-primary btn-lg" type="submit" value="Add user"/>-->
+
+<!--            </form>-->
+
+        </div>
+    </div>
+</div>
 </body>
 </html>

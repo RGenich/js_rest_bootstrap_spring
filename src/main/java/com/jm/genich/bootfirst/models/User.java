@@ -42,6 +42,8 @@ public class User implements UserDetails {
         return roles;
     }
 
+//    public Set<Role>
+
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }

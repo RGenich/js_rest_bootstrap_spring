@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -20,8 +21,14 @@ public class RoleDAOImpl implements RoleDAO {
                 .getSingleResult();
     }
 
-    public void createRoles(String roleName) {
-        entityManager.persist(new Role(roleName));
+    public void createRoles(Role role) {
+        entityManager.persist(role);
+    }
+
+    @Override
+    public List<Role> getAllRoles() {
+
+        return (List<Role>) entityManager.createQuery("SELECT r from Role r").getResultList();
     }
 
 }
