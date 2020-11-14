@@ -1,7 +1,6 @@
 package com.jm.genich.bootfirst.controllers;
 
 import com.jm.genich.bootfirst.models.User;
-import com.jm.genich.bootfirst.service.RoleService;
 import com.jm.genich.bootfirst.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

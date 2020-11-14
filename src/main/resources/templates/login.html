@@ -9,19 +9,46 @@
 <body>
 <div th:insert="~{header :: menu}"></div>
 </div>
+<div class="contaier" >
+<!--    <div class="dropdown-menu">-->
+        <div th:if="${error == true}">
+            <div class="alert alert-info" role="alert">
+                Check username and password
+            </div>
 
-<div class="container p-5">
-    <h1>Login page</h1>
-    <div th:if="${error == true}">
-        <p> wrong credential</p>
-    </div>
+        </div>
 
-    <form method="post" action="/login">
-        <input name="j_username"/>
-        <input type="password" name="j_password"/>
-        <input type="submit"/>
-    </form>
-    <p><a href="/reguser">Registration</a>
+        <form class="px-4 py-3" method="post" action="/login">
+            <div class="form-group">
+                <label for="login">Login</label>
+                <input type="text" class="form-control" id="login" placeholder="Login" name="j_username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" name="j_password">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+        <div class="dropdown-divider"></div>
+
+        <p><a class="dropdown-item" href="/reguser">Registration</a>
+<!--    </div>-->
 </div>
+<!--<div c  lass="container p-5">-->
+<!--    <h1>Login page</h1>-->
+<!--    <div th:if="${error == true}">-->
+<!--        <p> wrong credential</p>-->
+<!--    </div>-->
+
+<!--    <form method="post" action="/login">-->
+<!--        <input name="j_username"/>-->
+<!--        <input type="password" name="j_password"/>-->
+<!--        <input type="submit"/>-->
+<!--    </form>-->
+<!--    <p><a href="/reguser">Registration</a>-->
+<!--</div>-->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

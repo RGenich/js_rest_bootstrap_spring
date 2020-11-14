@@ -42,7 +42,14 @@ public class User implements UserDetails {
         return roles;
     }
 
-//    public Set<Role>
+    public User(DTOUser dtoUser) {
+        this.id = dtoUser.getId();
+        this.fullName = dtoUser.getFullName();
+        this.login = dtoUser.getLogin();
+        this.age = dtoUser.getAge();
+        this.sex = dtoUser.getSex();
+        this.roles = dtoUser.getRoles();
+    }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;

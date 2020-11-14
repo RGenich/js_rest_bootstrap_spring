@@ -1,0 +1,49 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="modalWindow" id="editModalForm" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit user</h5>
+                    <button type="button" class="closeModal close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div><label for="id">ID </label></div>
+                    <div><input id="id" name="id" type="text" readonly></div>
+                    <div><label for="login">Login </label></div>
+                    <div><input id="login" name="login" type="text" readonly></div>
+                    <div><label for="fullName">Name </label></div>
+                    <div><input id="fullName" name="fullName" type="text"></div>
+                    <div><label for="age">Age </label></div>
+                    <div><input id="age" type="text" name="age"></div>
+                    <div>
+                        <div><label>Sex </label></div>
+                        <div> <label for="F">Female</label>
+                        <input name="sex" type="radio" value="FEMALE" id="F"></div>
+                        <div> <label for="M">Male</label>
+                        <input name="sex" type="radio" value="MALE" id="M"></div>
+                    </div>
+                        <div th:id="rolelist" th:if="${#request.isUserInRole('ADMIN')}">
+                            <label for="roles">Roles:</label>
+                            <ul id="roles">
+                                <li th:each="role : ${rolesList}">
+                                    <input type="checkbox" th:text="${role.toString()}"
+                                           th:name="roles" th:value="${role}" th:id="${role.toString()}">
+                                </li>
+                            </ul>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="closeModal btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="saveButton" type="button" class="btn btn-primary">Save changes</button>
+                    <button id="deleteButton" type="button" class="btn btn-primary">Delete user</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

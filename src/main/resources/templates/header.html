@@ -4,9 +4,22 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
-<nav class="navbar navbar-dark bg-dark" th:fragment="menu" th:align="right">
-    <div sec:authorize="isAuthenticated()">
-        <a class="nav-link" href="logout">Logout</a>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="menu">
+    <a sec:authorize="isAuthenticated()" th:text="${#authentication.principal.fullName}" class="navbar-brand"
+       th:href="@{/user(id=${#authentication.principal.id})}">UserName</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" th:if="${#request.isUserInRole('ADMIN')}" th:href="@{/admin}">Userlist<span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li sec:authorize="isAuthenticated()"><a class="nav-link" href="logout">Logout</a></li>
+        </ul>
     </div>
 </nav>
 </body>

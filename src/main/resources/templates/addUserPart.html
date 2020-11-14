@@ -3,56 +3,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="regcard">
     <div>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <article class="card-body">
-                        <form th:method="post" th:action="@{/reguser}" th:object="${emptyuser}">
-                            <!--                            <div class="form-row">-->
-                            <div class="col form-group">
-                                <p><label>Full name </label>
-                                <p><input required type="text" th:name="fullname" th:field="*{fullName}"
-                                          class="form-control"
-                                          placeholder="">
-                            </div> <!-- form-group end.// -->
-                            <div class="col form-group">
-                                <p><label>Login</label>
-                                    <input required type="text" th:name="login" th:field="*{login}"
-                                           class="form-control"
-                                           placeholder=" ">
-                            </div> <!-- form-group end.// -->
-                            <div class="col form-group">
-                                <p><label>Age </label>
-                                <p><input th:field="*{age}" th:name="age" type="number" class="form-control"
-                                          placeholder="">
-                            </div> <!-- form-group end.// -->
-                            <div class="form-group">
-                                <p><label>Password</label>
-                                <p><input required type="password" th:name="password" th:field="*{password}"
-                                          class="form-control"
-                                          placeholder="">
-                            </div> <!-- form-group end.// -->
-                            <div class="form-group">
-                                <p><label class="form-check form-check-inline"></label>
-                                    <div id="add_sex"
-                                         th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">
-                                <p><input required type="radio" th:text="${sx}" th:name="sex" th:value="${sx}"
-                                          th:field="*{sex}">
-                            </div>
-
-                            <button type="submit" class="btn btn-primary btn-block">Add user</button>
-                            </form>
-                </div> <!-- f
-                orm-group// -->
-
-                </article> <!-- card-body end .// -->
-            </div> <!-- card.// -->
-        </div> <!-- col.//-->
-    </div> <!-- row.//-->
+        <div class="card">
+            <article class="card-body">
+                <form th:method="post" th:action="@{/reguser}" th:object="${emptyuser}">
+                    <div class="col form-group">
+                        <p><label>Full name </label>
+                        <p><input required type="text" th:name="fullname" th:field="*{fullName}"
+                                  class="form-control"
+                                  placeholder="">
+                    </div>
+                    <div class="col form-group">
+                        <p><label>Login</label>
+                            <input required type="text" th:name="login" th:field="*{login}"
+                                   class="form-control"
+                                   placeholder=" ">
+                    </div>
+                    <div class="col form-group">
+                        <p><label>Age </label>
+                        <p><input th:field="*{age}" th:name="age" type="number" class="form-control"
+                                  placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <p><label>Password</label>
+                        <p><input required type="password" th:name="password" th:field="*{password}"
+                                  class="form-control"
+                                  placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <p><label class="form-check form-check-inline"></label>
+                            <div id="add_sex"
+                                 th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">
+                        <p><input required type="radio" th:text="${sx}" th:name="sex" th:value="${sx}"
+                                  th:field="*{sex}">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Add user</button>
+                </form>
+            </article>
+        </div>
+    </div>
 </div>
-</div>
-<!--container end.//-->
-
-
 </body>
 </html>

@@ -5,92 +5,87 @@
     <meta charset="UTF-8">
     <title>Users manager</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-            crossorigin="anonymous"></script>
-    <!--    JS below-->
 </head>
 
 <body>
-
-<div th:insert="~{header :: menu}"></div>
+<!--скрытое модальное окно-->
+<div th:insert="~{editModal :: modalWindow}"></div>
 
 <div class="container">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#view">Users</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#add">Add user</a>
-        </li>
-    </ul>
-
-    <div class="tab-content">
-        <div class="tab-pane fade show active" id="view">
-
-            <table class="table table-borderless table-hover border text-center">
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Login</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Sex</th>
-                    <th scope="col" colspan="2">Actions</th>
-                </tr>
-                <tr th:each="user : ${users}">
-                    <td scope="row" th:text="${user.fullName}">nameValue</td>
-                    <td scope="row" th:text="${user.login}">login</td>
-                    <td scope="row" th:text="${user.age}">age</td>
-                    <td scope="row" th:text="${user.sex}">sex</td>
-
-                    <td scope="row">
-                        <button type="button" class="btn btn-sm" data-toggle="modal" data-target="#editModal"
-                                th:attrappend="data-target=${user.id}">
-                            Edit
-                        </button>
-                    </td>
-                    <td>
-                        <form th:action="@{/deleteUser}" method="post">
-                            <input type="hidden" th:name="id" th:value="${user.id}">
-                            <button type="submit" value="delete" class="btn btn-danger btn-sm">Delete</button>
-                        </form>
-                    </td>
-
-                    <div th:insert="~{modal_edit :: modal_edit}"></div>
-                </tr>
-            </table>
+    <!-- меню-->
+    <div th:insert="~{header :: menu}"></div>
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#view">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#add">Add user</a>
+                </li>
+            </ul>
         </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="view">
+                    <table class="table table-borderless table-hover border text-center">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Login</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Sex</th>
+                            <th scope="col" colspan="2">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                        <tr id="tr">
+                        </tr>
+                        </tbody>
+                        <tbody>
+                        <tr>
+                            <td><input id="nFullName" placeholder="Name"></td>
+                            <td>
+                                <input id="nLogin" type="text" placeholder="Login">
+                                <input id="nPassword" type="password" placeholder="Password">
+                            </td>
+                            <td>
+                                <input id="nAge" type="nNumber" placeholder="Age">
+                            </td>
+                            <td>
+                                <form id="sex">
+                                    <label for="nM">M </label><input name="nSex" type="radio" value="MALE" id="nM">
+                                    <label for="nF">F </label><input name="nSex" type="radio" value="FEMALE"
+                                                                     id="nF">
+                                </form>
+                            </td>
+                            <td colspan="2">
+                                <input type="submit" value=" + " id="addButton">
+                            </td>
+                        </tr>
 
-
-        <div class="tab-pane fade" id="add">
-
-            <div th:insert="~{addUserPart :: regcard}"></div>
-<!--            <form th:method="post" th:action="@{/reguser}" th:object="${emptyuser}">-->
-<!--                <p><label for="add_fullanme">Name</label>-->
-<!--                    <input id="add_fullanme" required type="text" th:name="fullname" th:field="*{fullName}">-->
-<!--                <p><label for="add_login">Login</label>-->
-<!--                    <input id="add_login" required type="text" th:name="login" th:field="*{login}">-->
-<!--                <p><label for="add_password">Password</label>-->
-<!--                    <input id="add_password" required type="password" th:name="password" th:field="*{password}">-->
-<!--                <p><label for="add_age">Age </label>-->
-<!--                    <input id="add_age" th:field="*{age}" th:name="age" type="number">-->
-<!--                <p><label for="add_sex">Sex</label>-->
-<!--                <div id="add_sex" th:each="sx : ${T(com.jm.genich.bootfirst.models.Sex).values()}">-->
-<!--                    <input required type="radio" th:text="${sx}" th:name="sex" th:value="${sx}"-->
-<!--                           th:field="*{sex}">-->
-<!--                </div>-->
-<!--                <input class="btn btn-primary btn-lg" type="submit" value="Add user"/>-->
-
-<!--            </form>-->
-
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="add">
+                    <div th:insert="~{addUserPart :: regcard}"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+<script src="/tableShow.js"></script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package com.jm.genich.bootfirst.controllers;
 
+import com.jm.genich.bootfirst.exceptions.NotFoundException;
 import com.jm.genich.bootfirst.models.User;
+import com.jm.genich.bootfirst.service.RoleService;
 import com.jm.genich.bootfirst.service.RoleServiceImpl;
 import com.jm.genich.bootfirst.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class UsersController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private RoleService roleService;
 
     @PostMapping(value = "/save")
     public String saveChanges(@ModelAttribute User user, HttpServletRequest request, Model model) {
@@ -29,7 +33,7 @@ public class UsersController {
     }
 
     @GetMapping(value = "/user")
-    public String showUserDetails(Model model, @RequestParam(required = false) Long id, @RequestParam(required = false) String hz, HttpServletRequest request,
+    public String showUserDetails(Model model, @RequestParam(required = false) Long id, HttpServletRequest request,
                                   Authentication authentication, RedirectAttributes ra) {
 
         User currentUser = (User) authentication.getPrincipal();
@@ -38,10 +42,13 @@ public class UsersController {
 
             return "redirect:/user";
         }
-
+        if (!userService.existsById(id)) {
+            throw new NotFoundException();
+        }
         User user = userService.getUser(id);
+
         model.addAttribute("user", user);
-        model.addAttribute("role", new RoleServiceImpl());
+        model.addAttribute("roles", roleService.getAllRoles());
         model.addAttribute("stringRoleList", user.getRoles().stream().map(t -> t.toString()).collect(Collectors.toList()));
 
         return "user";
@@ -49,7 +56,7 @@ public class UsersController {
 
     @GetMapping(value = "/")
     public String justRedirect() {
-        return "redirect:/users";
+        return "redirect:/admin";
     }
 }
 

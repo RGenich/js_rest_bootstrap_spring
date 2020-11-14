@@ -5,17 +5,15 @@ import com.jm.genich.bootfirst.dao.UserRepository;
 import com.jm.genich.bootfirst.models.Role;
 import com.jm.genich.bootfirst.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    UserRepository userDao;
+    UserRepository userRepository;
     @Autowired
     RoleDAOImpl roleDAO;
     @Autowired
@@ -35,22 +33,23 @@ public class UserServiceImpl implements UserService {
         user.setRoles(roles);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public boolean existsById(Long id) {
-        return userDao.existsById(id);
+        return userRepository.existsById(id);
     }
 
     @Override
     public void deleteUser(Long id) {
-        userDao.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Override
     public User getUser(Long id) {
-        return userDao.getOne(id);
+        Optional opt = userRepository.findById(id);
+        return (User) opt.get();
     }
 
     @Override
@@ -61,18 +60,23 @@ public class UserServiceImpl implements UserService {
             dbRoles.add(roleDAO.getRoleByName(role.getRoleName()));
         }
         updatedUserObject.setRoles(dbRoles);
-        userDao.save(updatedUserObject);
+        if (updatedUserObject.getPassword() == null) {
+            //если пароль не задан, вставляем старый зашифрованный
+            updatedUserObject.setPassword(userRepository.getOne(updatedUserObject.getId()).getPassword());
+        }
+
+        userRepository.save(updatedUserObject);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userDao.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public User getUserByLogin(String login) {
 
-        return userDao.getUserByLogin(login);
+        return userRepository.getUserByLogin(login);
     }
 
 //    @Override
